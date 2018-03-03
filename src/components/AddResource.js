@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { ScrollView, View, Image, KeyboardAvoidingView  } from 'react-native';
+import { ScrollView, View, Image, KeyboardAvoidingView, TouchableOpacity, TextInput  } from 'react-native';
 import axios from 'axios';
-import { Container, Header, Button, Toast, Item, Card, CardItem, Input, Form, Separator , Icon,Picker, Content, Segment, Left, Body, Right, Thumbnail, Text } from 'native-base';
+import { Container, Header, Button, Toast, Item, Label, Card, CardItem, Input, Form, Separator , Icon,Picker, Content, Left, Body, Right, Thumbnail, Text } from 'native-base';
 import firebase from 'firebase';
+import Autocomplete from 'react-native-autocomplete-input';
 
 class AddResource extends Component {
 
@@ -11,7 +12,8 @@ class AddResource extends Component {
      this.state = {
          resourceTitle: '',
          resourceLink: '',
-         resourceSummary:''
+         resourceSummary:'',
+         possibleLinks: []
        }
    }
 
@@ -50,7 +52,7 @@ class AddResource extends Component {
                           position: 'bottom',
                           type: 'success'
                         })
-                        self.props.navigation.navigate('Home')
+                        self.props.navigation.goBack()
                     })
                     .catch(() => {
                       Toast.show({
@@ -63,22 +65,26 @@ class AddResource extends Component {
   }
 
   render() {
+
+    var self = this
+    var hideResults = false;
+
+    if (this.state.resourceLink != '') {
+      hideResults = true
+    }
+
     return (
-      <View style={{height: '100%'}}>
-          <Header style={{justifyContent: 'center', backgroundColor: '#6db5ff'}}>
+      <Container>
+          <Header header style={{justifyContent: 'center', backgroundColor: '#6db5ff'}}>
             <Left>
               <Button
                 transparent
                 title="Submit"
-                onPress={() => {  this.props.navigation.navigate('Home')  }}>
+                style={{width: 40}}
+                onPress={() => {  this.props.navigation.goBack()  }}>
                   <Icon name="ios-arrow-back" style={{color: '#fff'}}/>
               </Button>
             </Left>
-            <Body>
-              <Text style={{color: 'white'}}>
-                New Resource
-              </Text>
-            </Body>
             <Right>
               <Button
                 style={{backgroundColor:'#ff5858'}}
@@ -89,45 +95,65 @@ class AddResource extends Component {
               </Button>
             </Right>
           </Header>
-          <Content>
-            <Separator bordered>
-                <Text>Title</Text>
-            </Separator>
-            <Input
-              placeholder=''
-              returnKeyType="done"
-              keyboardType="default"
-              autoCorrect={false}
-              value ={this.state.resourceTitle}
-              onChangeText={resourceTitle=> this.setState({resourceTitle})}
-              style={{backgroundColor: '#fff'}}
-              />
-              <Separator bordered>
-                  <Text>Link</Text>
-              </Separator>
-              <Input
-                placeholder=''
-                returnKeyType="done"
-                keyboardType="default"
-                autoCorrect={false}
-                value ={this.state.resourceLink}
-                onChangeText={resourceLink=> this.setState({resourceLink})}
-                style={{backgroundColor: '#fff'}}
+          <Content style={{backgroundColor: '#6db5ff'}}>
+            <Form>
+              <View style={{flex: 1, zIndex: 15}}>
+                <Autocomplete
+                  placeholder="link"
+                  hideResults={hideResults}
+                  style={{paddingLeft: 10, backgroundColor: '#fff'}}
+                  listContainerStyle={{backgroundColor: '#fff', width: '100%', marginRight: 0, marginLeft:0}}
+                  listStyle={{borderLeftWidth: 0, borderRightWidth: 0}}
+                  data={this.state.possibleLinks}
+                  defaultValue={this.state.resourceLink}
+                  renderItem={link => (
+                    <TouchableOpacity onPress={() => this.setState({ resourceLink: link })}>
+                      <Text>{link}</Text>
+                    </TouchableOpacity>
+                  )}
+                  onChangeText={async (text) => {
+                      if (text && text.trim() != '') {
+                          const response = await fetch(`http://suggestqueries.google.com/complete/search?client=chrome&q=${'http://' + text}`, {
+                              method: `get`
+                          });
+                          const data = await response.json();
+                          console.log(text)
+                          self.setState({possibleLinks: data[1]})
+                      } else {
+                          hideResults = false
+                          self.setState({possibleLinks: []})
+                      }
+                  }}
+                  terms={['atlanta', 'atng', 'igloo']}
                 />
-                <Separator bordered>
-                    <Text>Short Description</Text>
-                </Separator>
-                <Input 
-                  placeholder=''
+              </View>
+              <View>
+                <Input
+                  placeholder='title'
+                  placeholderTextColor='#fff'
                   returnKeyType="done"
                   keyboardType="default"
                   autoCorrect={false}
-                  value ={this.state.resourceSummary}
-                  onChangeText={resourceSummary=> this.setState({resourceSummary})}
-                  style={{backgroundColor: '#fff', height: 100}}
+                  value ={this.state.resourceTitle}
+                  onChangeText={resourceTitle=> this.setState({resourceTitle})}
+                  style={{backgroundColor: '#6db5ff', color:'#fff', fontWeight: "bold", paddingLeft: 10}}
                   />
+                  <TextInput
+                    multiline={true}
+                    numberOfLines={5}
+                    placeholder='description'
+                    placeholderTextColor='#fff'
+                    returnKeyType="done"
+                    keyboardType="default"
+                    autoCorrect={false}
+                    value ={this.state.resourceSummary}
+                    onChangeText={resourceSummary=> this.setState({resourceSummary})}
+                    style={{backgroundColor: '#6db5ff', color:'#fff', paddingLeft: 10}}
+                    />
+              </View>
+            </Form>
           </Content>
-    </View>
+      </Container>
     );
   }
 }

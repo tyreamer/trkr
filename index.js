@@ -2,7 +2,7 @@ import React from 'react';
 import { TouchableHighlight, View, AppRegistry } from 'react-native';
 import firebase from 'firebase';
 import { Container, Header, Thumbnail, Left, Body, Button, Right, Toast, Item, Input,  Icon, Spinner, Content, Text, Root } from 'native-base';
-import TrekList from './src/components/TrekList';
+import MainFeed from './src/components/MainFeed';
 import Title from './src/components/Title';
 import MyProfile from './src/components/MyProfile';
 import Profile from './src/components/Profile';
@@ -11,7 +11,8 @@ import Plan from './src/components/Plan';
 import AddTrip from './src/components/AddTrip';
 import AddResource from './src/components/AddResource';
 import AddTip from './src/components/AddTip';
-import Login from './src/components/Login'
+import Login from './src/components/Login';
+import ViewTrek from './src/components/ViewTrek';
 import UpdateProfile from './src/components/UpdateProfile'
 
 import {  TabNavigator, StackNavigator } from 'react-navigation';
@@ -38,31 +39,21 @@ class HomeScreen extends React.Component {
   render() {
       return (
         <Container>
-          <Content>
-            <Header searchBar style={{backgroundColor: '#fff'}}>
-              <Item style={{width:'100%'}}>
-                <Input style={{width:'100%'}}
-                  placeholder="Search"
-                  returnKeyType="done"
-                  keyboardType="default"
-                  autoCorrect={true}
-                  onChange={this.handleKeyDown.bind(this)}
-                  onSubmitEditing={() => {
-                            this.props.navigation.navigate('Search', {searchText: this.state.searchText})
-                          }}
-                  />
-              </Item>
-              <Right>
+          <Content style={{backgroundColor: '#fff'}}>
                 <Button
                   transparent
-                  onPress={() => {
-                            this.props.navigation.navigate('Search', {searchText: this.state.searchText})
-                          }}>
-                  <Icon name="ios-search"></Icon>
-                </Button>
-              </Right>
-            </Header>
-            <TrekList navigation = {this.props.navigation} />
+                  full
+                  style={{width:'100%'}}
+                  onPress={() => {this.props.navigation.navigate('Search', {searchText: ''})}}
+                  >
+                    <Body>
+                      <Text note uppercase={false} style={{paddingTop: 5, paddingLeft: 10, alignSelf: 'flex-start'}}>Search</Text>
+                    </Body>
+                    <Right>
+                      <Icon style={{color: '#6db5ff', paddingRight: 10}} name="ios-search"></Icon>
+                    </Right>
+                  </Button>
+            <MainFeed navigation = {this.props.navigation} />
           </Content>
         </Container>
       );
@@ -117,6 +108,14 @@ class AddTipScreen extends React.Component {
   }
 }
 
+class ViewTrekScreen extends React.Component {
+  render() {
+    return (
+      <ViewTrek trekRecord={this.props.navigation.state.params.trekRecord} navigation = {this.props.navigation}></ViewTrek>
+    );
+  }
+}
+
 class SearchScreen extends React.Component {
   render() {
     return <Search navigation = {this.props.navigation} />
@@ -132,7 +131,10 @@ const MainScreenNavigator = TabNavigator(
   {
    tabBarPosition: 'bottom',
    tabBarOptions: {
-        style: {backgroundColor: '#6db5ff'}
+        renderIndicator: () => null,
+        style: {backgroundColor: '#fff'},
+        activeTintColor:'#4c4c4c',
+        inactiveTintColor: '#7f7f7f'
     }
   }
 );
@@ -141,9 +143,7 @@ class NavigatorWrappingScreen extends React.Component {
 
     state = {
       loggedIn: null,
-      screenProps: {
-                      currentUser: {},
-                  }
+      screenProps: {currentUser: {}}
     }
 
     componentWillMount() {
@@ -168,7 +168,7 @@ class NavigatorWrappingScreen extends React.Component {
              if (!cu.emailVerified) {
                cu.sendEmailVerification().then(() =>
                    Toast.show({
-                     text: 'A verification email has been sent to cu.email',
+                     text: 'A verification email has been sent to '+ cu.email,
                      position: 'bottom',
                      type: 'info'
                    })
@@ -216,7 +216,7 @@ class NavigatorWrappingScreen extends React.Component {
     switch(this.state.loggedIn) {
       case true:
         //Make sure they have a display name set
-        if (this.state.screenProps.currentUser.displayName != 'guest') {
+        if (this.state.screenProps.currentUser.displayName != 'guest' && this.state.screenProps.currentUser.displayName != null) {
           return <MainScreenNavigator navigation={self.props.navigation} screenProps= { self.state.screenProps }/>
         }
         else {
@@ -246,7 +246,8 @@ const TrekkerApp = StackNavigator({
     Home: { screen: NavigatorWrappingScreen },
     AddTrip: { screen: AddTripScreen },
     AddResource: {screen: AddResourceScreen},
-    AddTip: {screen: AddTip},
+    AddTip: {screen: AddTipScreen},
+    ViewTrek: {screen: ViewTrekScreen},
     Search: { screen: SearchScreen },
     UserProfile: { screen: ProfileScreen },
   },
@@ -255,7 +256,9 @@ const TrekkerApp = StackNavigator({
 
 
 export default class App extends React.Component {
-
+  constructor(props) {
+    super(props)
+  }
   navigationHelper = () => {
     this.navigator && this.navigator.dispatch({ type: 'Navigate', routeName, params })
   }

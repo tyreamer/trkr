@@ -1,0 +1,712 @@
+{
+  "likes" : {
+    "-L4T975ZkP7UNuEN9bH6" : {
+      "total" : 2
+    },
+    "-L5GVMswRo167u2LWp9R" : {
+      "total" : 1,
+      "tyreamer@gmail,com" : true
+    },
+    "-L6RXXTi9HmK_-OiG8hb" : {
+      "total" : 2,
+      "ty,asd@sadmc,com" : true,
+      "tyreamer@gmail,com" : true
+    }
+  },
+  "resources" : {
+    "-L4XasZxI-cP3nn3IDdM" : {
+      "datePosted" : 1517777815954,
+      "link" : "http://google.com",
+      "resourceTitle" : "First resource test"
+    },
+    "-L4Xswr64FWTKUL9TfR1" : {
+      "datePosted" : 1517782553003,
+      "link" : "www.seat61.com",
+      "resourceTitle" : "Seat61"
+    },
+    "-L4XuIOTWg0Gr73SIe56" : {
+      "datePosted" : 1517782907468,
+      "link" : "http://www.kayak.com",
+      "resourceSummary" : "I don't rent cars often, but when I do, I use Kayak. They have VERY low rates.",
+      "resourceTitle" : "Kayak Cars"
+    },
+    "-L4YeykYyHe92h11d9fu" : {
+      "datePosted" : 1517795666441,
+      "link" : "http://google.com",
+      "resourceSummary" : "Best way to start a search",
+      "resourceTitle" : "Go to Google"
+    },
+    "-L4aMpvDYx9BrWGyvkaC" : {
+      "datePosted" : 1517840980696,
+      "link" : "http://www.expedia.com",
+      "resourceSummary" : "we typically start searching here",
+      "resourceTitle" : "Cheap flights"
+    },
+    "-L4xPV7hMC9WXTMTPz7A" : {
+      "datePosted" : 1518227554195,
+      "link" : "http://www.southwest.com/",
+      "resourceSummary" : "",
+      "resourceTitle" : "Southwest"
+    },
+    "-L4xZzdsA1e-ANd2ggGe" : {
+      "datePosted" : 1518230304721,
+      "link" : "http://alaskaair.com.freeflighttickets.win",
+      "resourceSummary" : "Highly underrated airline providing spectacular service, free wifi and plenty of extras. They charge $25 for bags so they are not as amazing as Southwest, but how can you complain when the service is this good?! Try them out and let us know how your experience was. ",
+      "resourceTitle" : "Alaska Air"
+    }
+  },
+  "tags" : {
+    "Bali" : {
+      "-L4hT0JrwPA9BuWjJODQ" : "tip"
+    },
+    "Prague" : {
+      "-L4hzOF2-nUJNqZQbVe4" : "tip"
+    },
+    "baltimore" : {
+      "-L55RhA_q-LWsIo7LfCF" : "tip"
+    },
+    "baltimoron" : {
+      "-L6D_9PRDivLXAw7oo3N" : "trek"
+    },
+    "bmore" : {
+      "-L6D_9PRDivLXAw7oo3N" : "trek"
+    },
+    "bsha" : {
+      "-L55RhA_q-LWsIo7LfCF" : "tip"
+    },
+    "cheap" : {
+      "-L4hZEz7G0LmMNDoACsL" : "tip"
+    },
+    "cool" : {
+      "-L4hZEz7G0LmMNDoACsL" : "tip",
+      "-L6RXXTi9HmK_-OiG8hb" : "trek"
+    },
+    "delete" : {
+      "-L68nRkw9y1ir-DwryHD" : "trek"
+    },
+    "disney" : {
+      "-L5GVMswRo167u2LWp9R" : "trek"
+    },
+    "first" : {
+      "-L6RXXTi9HmK_-OiG8hb" : "trek"
+    },
+    "flights" : {
+      "-L4hZEz7G0LmMNDoACsL" : "tip"
+    },
+    "fun" : {
+      "-L5GVMswRo167u2LWp9R" : "trek",
+      "-L6DsFihNyWu_vGO-sAM" : "trek",
+      "-L6Duy-XO6HBRugUA7uv" : "trek",
+      "-L6RXXTi9HmK_-OiG8hb" : "trek"
+    },
+    "funs" : {
+      "-L6Duy-XO6HBRugUA7uv" : "trek",
+      "-L6DvJ8vSgZHAFY1UNgs" : "trek"
+    },
+    "gebr" : {
+      "-L4h2AH3eSwnZjpBepVg" : "tip"
+    },
+    "hotels" : {
+      "-L4hZEz7G0LmMNDoACsL" : "tip"
+    },
+    "hsbyyy" : {
+      "-L55RhA_q-LWsIo7LfCF" : "tip"
+    },
+    "loopj" : {
+      "-L4xikojr8G_Zldil6ZI" : "trek"
+    },
+    "lop" : {
+      "-L4xikojr8G_Zldil6ZI" : "trek"
+    },
+    "money" : {
+      "-L5ZfhXcZlHmI2-1JAge" : "trek"
+    },
+    "new" : {
+      "-L4hZEz7G0LmMNDoACsL" : "tip"
+    },
+    "prague" : {
+      "-L4lJraULVpn0WE8qzLp" : "tip"
+    },
+    "roller" : {
+      "-L5ZfhXcZlHmI2-1JAge" : "trek"
+    },
+    "sdfsdf" : {
+      "-L4h1MH1e5JvX2FS4_QO" : "tip"
+    },
+    "spender" : {
+      "-L5ZfhXcZlHmI2-1JAge" : "trek"
+    },
+    "tag1" : {
+      "-L4h3jKyhyj_sFyyKira" : "tip"
+    },
+    "tag2" : {
+      "-L4h3jKyhyj_sFyyKira" : "tip"
+    },
+    "tag3" : {
+      "-L4h3jKyhyj_sFyyKira" : "tip"
+    },
+    "test" : {
+      "-L55RhA_q-LWsIo7LfCF" : "tip"
+    },
+    "trip" : {
+      "-L4lJraULVpn0WE8qzLp" : "tip"
+    },
+    "turkey" : {
+      "-L4hZEz7G0LmMNDoACsL" : true
+    },
+    "vacation" : {
+      "-L5GVMswRo167u2LWp9R" : "trek"
+    },
+    "work" : {
+      "-L55RhA_q-LWsIo7LfCF" : "tip"
+    }
+  },
+  "tips" : {
+    "-L4h0pI02cu6V9vycjn3" : {
+      "datePosted" : 1517952654279,
+      "tipTags" : [ "entrepreneur", "testing" ],
+      "tipText" : "never start an app",
+      "tipTitle" : "new tip again"
+    },
+    "-L4h1MH1e5JvX2FS4_QO" : {
+      "datePosted" : 1517952793480,
+      "tipTags" : [ "cdcs ", "dsfsd ", " sdfsdf", "sdfsdf", "sdfsdfsdf", "sdfsdf" ],
+      "tipText" : "zxczxc",
+      "tipTitle" : "zxczxc"
+    },
+    "-L4h2AH3eSwnZjpBepVg" : {
+      "datePosted" : 1517953006479,
+      "tipTags" : [ "gebr", "testing" ],
+      "tipText" : "asd",
+      "tipTitle" : "bet"
+    },
+    "-L4h3jKyhyj_sFyyKira" : {
+      "datePosted" : 1517953415771,
+      "tipTags" : [ "tag1", "tag2", "tag3" ],
+      "tipText" : "alwayss the sasame",
+      "tipTitle" : "testing tags"
+    },
+    "-L4h3xDBD6983eJHupMP" : {
+      "datePosted" : 1517953472617,
+      "tipTags" : [ "tag1", "testing", "gebr" ],
+      "tipText" : "please workr",
+      "tipTitle" : "add to tag1"
+    },
+    "-L4h4JbWGqx1pcpFSLlv" : {
+      "datePosted" : 1517953568584,
+      "tipTags" : [ "tag1", "tag2", "testing " ],
+      "tipText" : "adasd",
+      "tipTitle" : "teaeasd"
+    },
+    "-L4h4vS9da7GaQlV3d11" : {
+      "datePosted" : 1517953727666,
+      "tipTags" : [ "tag1", "testing ", " tag2 " ],
+      "tipText" : "asdasd",
+      "tipTitle" : "asdasd"
+    },
+    "-L4h5wqVIqgNfSg5jJCG" : {
+      "datePosted" : 1517953995530,
+      "tipTags" : [ "tag1" ],
+      "tipText" : "asdsa",
+      "tipTitle" : "tasd"
+    },
+    "-L4h7b86IG_SoPxbQT6U" : {
+      "datePosted" : 1517954430901,
+      "tipText" : "asdaa",
+      "tipTitle" : "sdasdasd"
+    },
+    "-L4h7qbTOWwH1RHi3qfh" : {
+      "datePosted" : 1517954494285,
+      "tipTags" : [ "tag1", "testing" ],
+      "tipText" : "test the tags",
+      "tipTitle" : "testtags title"
+    },
+    "-L4h83oawzHbrz9yxm0g" : {
+      "datePosted" : 1517954552467,
+      "tipTags" : [ "tag1", "testing", " tag2 " ],
+      "tipText" : "asdasd",
+      "tipTitle" : "this will work"
+    },
+    "-L4hT0JrwPA9BuWjJODQ" : {
+      "datePosted" : 1517960043020,
+      "tipTags" : [ "Bali" ],
+      "tipText" : "never go",
+      "tipTitle" : "Bali tip"
+    },
+    "-L4hZEz7G0LmMNDoACsL" : {
+      "datePosted" : 1517961673724,
+      "tipTags" : [ "flights", "hotels", "cheap", "turkey", "new", "cool" ],
+      "tipText" : "book early",
+      "tipTitle" : "new travel tip"
+    },
+    "-L4hzOF2-nUJNqZQbVe4" : {
+      "datePosted" : 1517968792389,
+      "tipTags" : [ "testing", "Prague" ],
+      "tipText" : "hhhjjkk hgg",
+      "tipTitle" : "testing tags"
+    },
+    "-L4lJraULVpn0WE8qzLp" : {
+      "datePosted" : 1518024750592,
+      "tipTags" : [ "prague", "trip" ],
+      "tipText" : "this city is known to be popular in the summer",
+      "tipTitle" : "book early for prague"
+    },
+    "-L55RhA_q-LWsIo7LfCF" : {
+      "datePosted" : 1518379126674,
+      "tipTags" : [ "test", "work", "baltimore", "prague", "bsha", "hsbyyy" ],
+      "tipText" : "hshshs  fhshs ",
+      "tipTitle" : "testing tags again today"
+    },
+    "-L5GV_mblwhVl7u9QXSZ" : {
+      "datePosted" : 1518564695127,
+      "tipTags" : [ "Disney", "fun" ],
+      "tipText" : "Book early fills up fast",
+      "tipTitle" : "Disney tip"
+    }
+  },
+  "treks" : {
+    "-L4T975ZkP7UNuEN9bH6" : {
+      "budget" : 2000,
+      "datePosted" : 1517703168148,
+      "days" : [ {
+        "key" : 1,
+        "stops" : [ {
+          "key" : 1,
+          "stopName" : "Las Vegas, NV, United States"
+        } ]
+      }, {
+        "key" : 2,
+        "stops" : [ {
+          "key" : 1,
+          "stopName" : "Grand Canyon Village, AZ, United States"
+        } ]
+      }, {
+        "key" : 3,
+        "stops" : [ {
+          "key" : 1,
+          "stopName" : "Bryce Canyon, UT, United States"
+        }, {
+          "key" : 4,
+          "stopName" : "Arches Entrance Road, Moab, UT, United States"
+        } ]
+      } ],
+      "displayName" : "guest",
+      "featuredImage" : "https://op-cdn-madavor.netdna-ssl.com/2017/11/4-New-Zealand-Travel-Images-CTW-listing-640x400.jpg",
+      "likes" : 2,
+      "title" : "Utah Trip",
+      "user" : "tyreamer@gmail,com"
+    },
+    "-L5GVMswRo167u2LWp9R" : {
+      "budget" : "5000",
+      "datePosted" : 1518564638187,
+      "days" : [ {
+        "key" : 1,
+        "stops" : [ {
+          "key" : 0,
+          "stopName" : "Orlando, FL, USA"
+        }, {
+          "key" : 1,
+          "stopName" : "Animal Kingdom, Kissimmee, FL, USA"
+        } ]
+      }, {
+        "key" : 2,
+        "stops" : [ {
+          "key" : 0,
+          "stopName" : "Epcot Center Drive, Orlando, FL, USA"
+        } ]
+      }, {
+        "key" : 3,
+        "stops" : [ {
+          "key" : 0,
+          "stopName" : "Universal Studios Hollywood, Universal City Plaza, Universal City, CA, USA"
+        } ]
+      } ],
+      "displayName" : "treamer",
+      "summary" : "we took a trip",
+      "title" : "Disneyland",
+      "trekTags" : [ "disney", "fun", "vacation" ],
+      "user" : "tyreamer@gmail,com"
+    },
+    "-L5ZfhXcZlHmI2-1JAge" : {
+      "budget" : "1200000",
+      "datePosted" : 1518886377595,
+      "days" : [ {
+        "key" : 1,
+        "stops" : [ {
+          "key" : 0,
+          "stopName" : "Spain"
+        }, {
+          "key" : 1,
+          "stopName" : "Madrid, Spain"
+        } ]
+      }, {
+        "key" : 2,
+        "stops" : [ {
+          "key" : 0,
+          "stopName" : "Paris, France"
+        }, {
+          "key" : 1,
+          "stopName" : "Louvres, France"
+        } ]
+      }, {
+        "key" : 3,
+        "stops" : [ {
+          "key" : 0,
+          "stopName" : "Italy"
+        }, {
+          "key" : 1,
+          "stopName" : "Rome, Italy"
+        }, {
+          "key" : 2,
+          "stopName" : "Colosseum, Piazza del Colosseo, Rome, Metropolitan City of Rome, Italy"
+        } ]
+      }, {
+        "key" : 4,
+        "stops" : [ {
+          "key" : 0,
+          "stopName" : "Netherlands"
+        }, {
+          "key" : 1,
+          "stopName" : "Borussia Dortmund, Rheinlanddamm, Dortmund, Germany"
+        } ]
+      }, {
+        "key" : 5,
+        "stops" : [ {
+          "key" : 0,
+          "stopName" : "Portugal"
+        } ]
+      } ],
+      "displayName" : "treamer",
+      "summary" : "If spending money isnt an issue to you, this is the best trip you can take. Start in Spain and tour Europe. Dont stick to the itinerary, do what you want ",
+      "title" : "High roller",
+      "trekTags" : [ "money", "spender", "roller" ],
+      "user" : "tyreamer@gmail,com"
+    },
+    "-L6RXXTi9HmK_-OiG8hb" : {
+      "budget" : "1000",
+      "datePosted" : 1519823496784,
+      "days" : [ {
+        "key" : 1,
+        "stops" : [ {
+          "key" : 0,
+          "stopName" : "Atlanta, GA"
+        } ]
+      }, {
+        "key" : 2,
+        "stops" : [ {
+          "key" : 0,
+          "stopName" : "Charleston, South Carolina"
+        } ]
+      } ],
+      "displayName" : "treamer2",
+      "likes" : 2,
+      "summary" : "",
+      "title" : "my first trip",
+      "trekTags" : [ "first", "fun", "cool" ],
+      "user" : "ty,reamer@yahoo,com"
+    }
+  },
+  "user-posts" : {
+    "ty,reamer@yahoo,com" : {
+      "-L6RXXTi9HmK_-OiG8hb" : {
+        "budget" : "1000",
+        "datePosted" : 1519823496784,
+        "days" : [ {
+          "key" : 1,
+          "stops" : [ {
+            "key" : 0,
+            "stopName" : "Atlanta, GA"
+          } ]
+        }, {
+          "key" : 2,
+          "stops" : [ {
+            "key" : 0,
+            "stopName" : "Charleston, South Carolina"
+          } ]
+        } ],
+        "displayName" : "treamer2",
+        "likes" : 2,
+        "summary" : "",
+        "title" : "my first trip",
+        "trekTags" : [ "first", "fun", "cool" ],
+        "user" : "ty,reamer@yahoo,com"
+      }
+    },
+    "tyreamer@gmail,com" : {
+      "-L4T975ZkP7UNuEN9bH6" : {
+        "datePosted" : 1517703168148,
+        "days" : [ {
+          "key" : 1,
+          "stops" : [ {
+            "key" : 1,
+            "stopName" : "Las Vegas, NV, United States"
+          } ]
+        }, {
+          "key" : 2,
+          "stops" : [ {
+            "key" : 1,
+            "stopName" : "Grand Canyon Village, AZ, United States"
+          } ]
+        }, {
+          "key" : 3,
+          "stops" : [ {
+            "key" : 1,
+            "stopName" : "Bryce Canyon, UT, United States"
+          }, {
+            "key" : 4,
+            "stopName" : "Arches Entrance Road, Moab, UT, United States"
+          } ]
+        } ],
+        "displayName" : "guest",
+        "likes" : 2,
+        "title" : "Utah Trip",
+        "user" : "tyreamer@gmail,com"
+      },
+      "-L5GVMswRo167u2LWp9R" : {
+        "budget" : "5000",
+        "datePosted" : 1518564638187,
+        "days" : [ {
+          "key" : 1,
+          "stops" : [ {
+            "key" : 0,
+            "stopName" : "Orlando, FL, USA"
+          }, {
+            "key" : 1,
+            "stopName" : "Animal Kingdom, Kissimmee, FL, USA"
+          } ]
+        }, {
+          "key" : 2,
+          "stops" : [ {
+            "key" : 0,
+            "stopName" : "Epcot Center Drive, Orlando, FL, USA"
+          } ]
+        }, {
+          "key" : 3,
+          "stops" : [ {
+            "key" : 0,
+            "stopName" : "Universal Studios Hollywood, Universal City Plaza, Universal City, CA, USA"
+          } ]
+        } ],
+        "displayName" : "treamer",
+        "summary" : "we took a trip",
+        "title" : "Disneyland",
+        "trekTags" : [ "disney", "fun", "vacation" ],
+        "user" : "tyreamer@gmail,com"
+      },
+      "-L5ZfhXcZlHmI2-1JAge" : {
+        "budget" : "1200000",
+        "datePosted" : 1518886377595,
+        "days" : [ {
+          "key" : 1,
+          "stops" : [ {
+            "key" : 0,
+            "stopName" : "Spain"
+          }, {
+            "key" : 1,
+            "stopName" : "Madrid, Spain"
+          } ]
+        }, {
+          "key" : 2,
+          "stops" : [ {
+            "key" : 0,
+            "stopName" : "Paris, France"
+          }, {
+            "key" : 1,
+            "stopName" : "Louvres, France"
+          } ]
+        }, {
+          "key" : 3,
+          "stops" : [ {
+            "key" : 0,
+            "stopName" : "Italy"
+          }, {
+            "key" : 1,
+            "stopName" : "Rome, Italy"
+          }, {
+            "key" : 2,
+            "stopName" : "Colosseum, Piazza del Colosseo, Rome, Metropolitan City of Rome, Italy"
+          } ]
+        }, {
+          "key" : 4,
+          "stops" : [ {
+            "key" : 0,
+            "stopName" : "Netherlands"
+          }, {
+            "key" : 1,
+            "stopName" : "Borussia Dortmund, Rheinlanddamm, Dortmund, Germany"
+          } ]
+        }, {
+          "key" : 5,
+          "stops" : [ {
+            "key" : 0,
+            "stopName" : "Portugal"
+          } ]
+        } ],
+        "displayName" : "treamer",
+        "summary" : "If spending money isnt an issue to you, this is the best trip you can take. Start in Spain and tour Europe. Dont stick to the itinerary, do what you want ",
+        "title" : "High roller",
+        "trekTags" : [ "money", "spender", "roller" ],
+        "user" : "tyreamer@gmail,com"
+      }
+    }
+  },
+  "user-resources" : {
+    "tyreamer@gmail,com" : {
+      "-L4Xswr64FWTKUL9TfR1" : {
+        "datePosted" : 1517782553003,
+        "link" : "www.seat61.com",
+        "resourceSummary" : "best ways to get around a country",
+        "resourceTitle" : "Seat61"
+      },
+      "-L4XuIOTWg0Gr73SIe56" : {
+        "datePosted" : 1517782907468,
+        "link" : "http://www.kayak.com",
+        "resourceSummary" : "I don't rent cars often, but when I do, I use Kayak. They have VERY low rates.",
+        "resourceTitle" : "Kayak Cars"
+      },
+      "-L4YeykYyHe92h11d9fu" : {
+        "datePosted" : 1517795666441,
+        "link" : "http://google.com",
+        "resourceSummary" : "Best way to start a search",
+        "resourceTitle" : "Go to Google"
+      },
+      "-L4aMpvDYx9BrWGyvkaC" : {
+        "datePosted" : 1517840980696,
+        "link" : "http://www.expedia.com",
+        "resourceSummary" : "we typically start searching here",
+        "resourceTitle" : "Cheap flights"
+      },
+      "-L4xPV7hMC9WXTMTPz7A" : {
+        "datePosted" : 1518227554195,
+        "link" : "http://www.southwest.com/",
+        "resourceSummary" : "",
+        "resourceTitle" : "Southwest"
+      },
+      "-L4xZzdsA1e-ANd2ggGe" : {
+        "datePosted" : 1518230304721,
+        "link" : "http://alaskaair.com.freeflighttickets.win",
+        "resourceSummary" : "Highly underrated airline providing spectacular service, free wifi and plenty of extras. They charge $25 for bags so they are not as amazing as Southwest, but how can you complain when the service is this good?! Try them out and let us know how your experience was. ",
+        "resourceTitle" : "Alaska Air"
+      }
+    }
+  },
+  "user-tips" : {
+    "tyreamer@gmail,com" : {
+      "-L4h0pI02cu6V9vycjn3" : {
+        "datePosted" : 1517952654279,
+        "tipTags" : [ "entrepreneur", "testing" ],
+        "tipText" : "never start an app",
+        "tipTitle" : "new tip again"
+      },
+      "-L4h1MH1e5JvX2FS4_QO" : {
+        "datePosted" : 1517952793480,
+        "tipTags" : [ "cdcs ", "dsfsd ", " sdfsdf", "sdfsdf", "sdfsdfsdf", "sdfsdf" ],
+        "tipText" : "zxczxc",
+        "tipTitle" : "zxczxc"
+      },
+      "-L4h2AH3eSwnZjpBepVg" : {
+        "datePosted" : 1517953006479,
+        "tipTags" : [ "gebr", "testing" ],
+        "tipText" : "asd",
+        "tipTitle" : "bet"
+      },
+      "-L4h3jKyhyj_sFyyKira" : {
+        "datePosted" : 1517953415771,
+        "tipTags" : [ "tag1", "tag2", "tag3" ],
+        "tipText" : "alwayss the sasame",
+        "tipTitle" : "testing tags"
+      },
+      "-L4h3xDBD6983eJHupMP" : {
+        "datePosted" : 1517953472617,
+        "tipTags" : [ "tag1", "testing", "gebr" ],
+        "tipText" : "please workr",
+        "tipTitle" : "add to tag1"
+      },
+      "-L4h4JbWGqx1pcpFSLlv" : {
+        "datePosted" : 1517953568584,
+        "tipTags" : [ "tag1", "tag2", "testing " ],
+        "tipText" : "adasd",
+        "tipTitle" : "teaeasd"
+      },
+      "-L4h4vS9da7GaQlV3d11" : {
+        "datePosted" : 1517953727666,
+        "tipTags" : [ "tag1", "testing ", " tag2 " ],
+        "tipText" : "asdasd",
+        "tipTitle" : "asdasd"
+      },
+      "-L4h5wqVIqgNfSg5jJCG" : {
+        "datePosted" : 1517953995530,
+        "tipTags" : [ "tag1" ],
+        "tipText" : "asdsa",
+        "tipTitle" : "tasd"
+      },
+      "-L4h7b86IG_SoPxbQT6U" : {
+        "datePosted" : 1517954430901,
+        "tipText" : "asdaa",
+        "tipTitle" : "sdasdasd"
+      },
+      "-L4h7qbTOWwH1RHi3qfh" : {
+        "datePosted" : 1517954494285,
+        "tipTags" : [ "tag1", "testing" ],
+        "tipText" : "test the tags",
+        "tipTitle" : "testtags title"
+      },
+      "-L4h83oawzHbrz9yxm0g" : {
+        "datePosted" : 1517954552467,
+        "tipTags" : [ "tag1", "testing", " tag2 " ],
+        "tipText" : "asdasd",
+        "tipTitle" : "this will work"
+      },
+      "-L4hT0JrwPA9BuWjJODQ" : {
+        "datePosted" : 1517960043020,
+        "tipTags" : [ "Bali" ],
+        "tipText" : "never go",
+        "tipTitle" : "Bali tip"
+      },
+      "-L4hZEz7G0LmMNDoACsL" : {
+        "datePosted" : 1517961673724,
+        "tipTags" : [ "flights", "hotels", "cheap", "turkey", "new", "cool" ],
+        "tipText" : "book early",
+        "tipTitle" : "new travel tip"
+      },
+      "-L4hzOF2-nUJNqZQbVe4" : {
+        "datePosted" : 1517968792389,
+        "tipTags" : [ "testing", "Prague" ],
+        "tipText" : "hhhjjkk hgg",
+        "tipTitle" : "testing tags"
+      },
+      "-L4lJraULVpn0WE8qzLp" : {
+        "datePosted" : 1518024750592,
+        "tipTags" : [ "prague", "trip" ],
+        "tipText" : "this city is known to be popular in the summer",
+        "tipTitle" : "book early for prague"
+      },
+      "-L55RhA_q-LWsIo7LfCF" : {
+        "datePosted" : 1518379126674,
+        "tipTags" : [ "test", "work", "baltimore", "prague", "bsha", "hsbyyy" ],
+        "tipText" : "hshshs  fhshs ",
+        "tipTitle" : "testing tags again today"
+      },
+      "-L5GV_mblwhVl7u9QXSZ" : {
+        "datePosted" : 1518564695127,
+        "tipTags" : [ "Disney", "fun" ],
+        "tipText" : "Book early fills up fast",
+        "tipTitle" : "Disney tip"
+      }
+    }
+  },
+  "users" : {
+    "ty,reamer@yahoo,com" : {
+      "displayName" : "treamer2",
+      "email" : "ty.reamer@yahoo.com",
+      "lastSignInTimestamp" : 1519765048832,
+      "photo" : ""
+    },
+    "tyreamer@gmail,com" : {
+      "displayName" : "treamer",
+      "email" : "tyreamer@gmail.com",
+      "lastSignInTimestamp" : 1518980978581,
+      "photo" : "https://firebasestorage.googleapis.com/v0/b/trekker-2018.appspot.com/o/images%2F1519489322726?alt=media&token=b3c0b8e1-4050-4d95-916a-c77169320f88"
+    }
+  }
+}

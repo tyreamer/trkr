@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { ScrollView, View, Image, KeyboardAvoidingView  } from 'react-native';
+import { ScrollView, View, Image, KeyboardAvoidingView, Platform, TextInput  } from 'react-native';
 import axios from 'axios';
 import { Container, Header, Button, Toast, List, ListItem, Item, Card, CardItem, Input, Form, Separator , Icon,Picker, Content, Segment, Left, Body, Right, Thumbnail, Text } from 'native-base';
 import firebase from 'firebase';
+import MaterialCommunityIcons from'react-native-vector-icons/MaterialCommunityIcons'
 
 class AddTip extends Component {
 
@@ -33,6 +34,8 @@ class AddTip extends Component {
                 tipTitle: self.state.tipTitle,
                 tipText: self.state.tipText,
                 tipTags: self.state.tipTags,
+                user: userEmail,
+                displayName: firebase.auth().currentUser.displayName ? firebase.auth().currentUser.displayName : 'guest',
                 datePosted: Date.now()
               };
 
@@ -83,23 +86,49 @@ class AddTip extends Component {
         })
   }
 
+  renderTagList() {
+    if (this.state.tipTags.length > 0) {
+      return (
+        <List
+          style={[styles.HeaderInputStyle]}
+          dataArray={this.state.tipTags}
+          horizontal={true}
+          renderRow={(tag) =>
+              <ListItem style={[styles.HeaderInputStyle,{paddingLeft: 0, paddingRight: 0, paddingTop: 0, borderBottomWidth: 0}]}>
+                  <Button transparent onPress={()=>{this.removeTag({tag})}}>
+                    <Text note uppercase={false}  style={{color: '#fff', paddingLeft: 1, paddingRight: 1}}>#{tag}</Text>
+                  </Button>
+              </ListItem>}>
+        </List>);
+    }
+    else {
+      return
+    }
+  }
+
+  removeTag(t) {
+    /*TODO FIX THIS (currently only able to remove last tag added)*/
+    var index = this.state.tipTags.indexOf(t.tag);
+    var newTags = this.state.tipTags;
+    if (index > -1) {
+      newTags.splice(index, 1);
+      this.setState({tipTags: newTags})
+    }
+  }
+
   render() {
     return (
-      <View style={{height: '100%'}}>
-          <Header style={{justifyContent: 'center', backgroundColor: '#6db5ff'}}>
+      <View style = { styles.MainContainer }>
+          <Header noShadow={true} style={{justifyContent: 'center', backgroundColor: '#6db5ff'}}>
             <Left>
               <Button
                 transparent
                 title="Submit"
-                onPress={() => {  this.props.navigation.navigate('Home')  }}>
+                style={{width: 50}}
+                onPress={() => {  this.props.navigation.goBack()  }}>
                   <Icon name="ios-arrow-back" style={{color: '#fff'}}/>
               </Button>
             </Left>
-            <Body>
-              <Text style={{color: 'white'}}>
-                New Tip
-              </Text>
-            </Body>
             <Right>
               <Button
                 style={{backgroundColor:'#ff5858'}}
@@ -111,69 +140,119 @@ class AddTip extends Component {
             </Right>
           </Header>
           <Content>
-            <Separator bordered>
-                <Text>title</Text>
-            </Separator>
-            <Input
-              placeholder=''
-              returnKeyType="done"
-              keyboardType="default"
-              autoCorrect={false}
-              value ={this.state.tipTitle}
-              onChangeText={tipTitle=> this.setState({tipTitle})}
-              style={{backgroundColor: '#fff'}}
-              />
-              <Separator bordered>
-                  <Text>tip</Text>
-              </Separator>
-              <Input
-                multiline={true}
-                placeholder=''
-                returnKeyType="done"
-                keyboardType="default"
-                autoCorrect={false}
-                value ={this.state.tipText}
-                onChangeText={tipText=> this.setState({tipText})}
-                style={{backgroundColor: '#fff', height: 100}}
-                />
-                <Separator bordered>
-                    <Text>tags</Text>
-                </Separator>
-                <Card>
-                <CardItem style={{backgroundColor: '#f8f8f8'}}>
-                  <List dataArray={this.state.tipTags} horizontal={true}
-                      renderRow={(tag) =>
-                          <ListItem style={{paddingLeft: 5, paddingRight: 5}}>
-                              <Text note># {tag}</Text>
-                          </ListItem>
-                      }>
-                  </List>
-                </CardItem>
-                  <CardItem>
-                    <Input
-                        placeholder=''
+            <View style={{height: '100%', justifyContent: 'center'}}>
+              <Card transparent style={[styles.HeaderInputStyle, {height: '100%', borderLeftWidth:0, borderTopWidth:0, borderBottomWidth:0, borderRightWidth: 0}]}>
+                  <CardItem style={[styles.HeaderInputStyle, styles.HeaderCardItemStyle]}>
+                    <View style={styles.IconTextSameLine}>
+                      <Icon name="ios-information-circle-outline" style={{color: '#fff'}}></Icon>
+                      <TextInput
+                        placeholder='title'
+                        placeholderTextColor= '#fff'
+                        returnKeyType="done"
+                        keyboardType="default"
+                        autoCorrect={false}
+                        value ={this.state.tipTitle}
+                        onChangeText={tipTitle=> this.setState({tipTitle})}
+                        style={[styles.HeaderInputStyle, {color: '#fff', textDecorationLine:'none'}]}
+                        />
+                    </View>
+                  </CardItem>
+                  <CardItem transparent style={[styles.HeaderInputStyle, styles.HeaderCardItemStyle]}>
+                    <View style={styles.IconTextSameLine}>
+                      <Icon name="ios-link" style={{color: '#fff'}}/>
+                      <TextInput
+                        placeholder='add tags'
+                        placeholderTextColor= '#fff'
                         returnKeyType="done"
                         keyboardType="default"
                         autoCorrect={false}
                         value ={this.state.currentTag}
-                        onChangeText={currentTag=> this.setState({currentTag})}
-                        style={{backgroundColor: '#fff', width: '90%'}}
+                        onChangeText={currentTag => this.setState({currentTag: currentTag.replace(' ', '')})}
+                        style={[styles.HeaderInputStyle, {color: '#fff', textDecorationLine:'none'}]}
                         />
                       <Button
+                        style={styles.HeaderButtonStyle}
+                        transparent
                         onPress= {() => {
                           var ct = this.state.tipTags;
                           ct.push(this.state.currentTag)
                           this.setState({tipTags: ct, currentTag: ''})
                         }}>
-                        <Icon name="ios-add" />
+                        {this.state.currentTag != '' ? <Icon name="ios-add-outline" style={{fontWeight: 'bold', color: '#fff'}}/> : null}
                       </Button>
-                    </CardItem>
-                </Card>
+                    </View>
+                  </CardItem>
+                  {this.state.tipTags != [] ? this.renderTagList() : null}
+                  <CardItem transparent style={[styles.HeaderInputStyle, styles.HeaderCardItemStyle, {height: 100}]}>
+                    <View style={[styles.IconTextSameLine]}>
+                      <Button transparent style={styles.HeaderButtonStyle}>
+                        <MaterialCommunityIcons name="lightbulb-outline" style={{color: '#fff'}} size={20}/>
+                      </Button>
+                      <TextInput
+                        textAlignVertical={'top'}
+                        multiline={true}
+                        placeholder='tip'
+                        placeholderTextColor= '#fff'
+                        returnKeyType="done"
+                        keyboardType="default"
+                        autoCorrect={false}
+                        value ={this.state.tipText}
+                        onChangeText={tipText=> this.setState({tipText})}
+                        style={[styles.HeaderInputStyle, {color: '#fff', textDecorationLine:'none', height: 100, width: '100%', fontSize:15}]}
+                      />
+                    </View>
+                  </CardItem>
+              </Card>
+            </View>
           </Content>
     </View>
     );
   }
 }
 
+const styles =  {
+    MainContainer:
+    {
+        flex: 1,
+        paddingTop: (Platform.OS == 'ios') ? 20 : 0,
+        backgroundColor:"#6db5ff",
+        height:'100%'
+    },
+    HeaderStyle:
+    {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: (Platform.OS == 'ios') ? 20 : 0,
+    },
+    HeaderInputStyle:
+    {
+      backgroundColor: '#6db5ff',
+      height: 60
+    },
+    HeaderCardItemStyle:
+    {
+      width: '100%',
+      borderTopWidth: 0,
+      borderLeftWidth: 0,
+      borderRightWidth:0,
+      borderBottomWidth: .5,
+      borderBottomColor: '#fff'
+    },
+    HeaderButtonStyle:
+    {
+      marginTop: 5,
+      marginRight: 5
+    },
+    IconTextSameLine:
+    {
+      paddingLeft: 8,
+      width: 100,
+      flex: 1,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'flex-start'
+    },
+}
 
 export default AddTip;

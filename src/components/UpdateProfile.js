@@ -16,28 +16,38 @@ class UpdateProfile extends Component {
      this.setState({error: ''})
      cu = firebase.auth().currentUser;
      var userNodeRef = cu.email.toLowerCase().replace(/\./g, ',')
-     firebase.database().ref('/users').child(userNodeRef).set({
-        //UPDATE SO THESE ARE NOT OVERWRITTEN LATER
-         email: cu.email,
-         displayName: this.state.displayName,
-         photo: '',
-         lastSignInTimestamp: Date.now()
-     }).then(()=> {
 
-       Toast.show({
-         text: 'Successfully Updated!',
-         position: 'bottom',
-         type: 'success'
-       })
-       this.props.navigation.navigate('Home', {displayName: this.state.displayName})
-       self.props.handleDisplayNameUpdate(this.state.displayName)
-     }).catch((error) => {
-          console.error(error);
-          Toast.show({
-            text: error,
-            position: 'bottom',
-            type: 'danger'
-          })
+     cu.updateProfile({
+        displayName: this.state.displayName,
+      }).then(function() {
+           firebase.database().ref('/users').child(userNodeRef).update({
+              //UPDATE SO THESE ARE NOT OVERWRITTEN LATER
+               email: cu.email,
+               displayName: self.state.displayName,
+               photo: '',
+               lastSignInTimestamp: Date.now()
+           }).then(()=> {
+             Toast.show({
+               text: 'Successfully Updated!',
+               position: 'bottom',
+               type: 'success'
+             })
+             self.props.navigation.navigate('Home', {displayName: self.state.displayName})
+             self.props.handleDisplayNameUpdate(self.state.displayName)
+           }).catch((error) => {
+                console.error(error);
+                Toast.show({
+                  text: error,
+                  position: 'bottom',
+                  type: 'danger'
+                })
+            });
+      }).catch(function(error) {
+        Toast.show({
+          text: error,
+          position: 'bottom',
+          type: 'danger'
+        })
       });
    }
 

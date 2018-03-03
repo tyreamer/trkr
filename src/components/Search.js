@@ -1,109 +1,211 @@
 import React, { Component } from 'react';
-import { Container, Header, View, Content, Item, Input, SearchBar, Icon, Button, Text, Spinner, Left, Body, Right } from 'native-base';
-import axios from 'axios';
+import { TextInput } from 'react-native';
+import { Container, Header, View, Content, Card, CardItem, Icon, Button, Text, Left, Body, Right } from 'native-base';
 import TrekDetail from './TrekDetail.js'
+import TipDetail from './TipDetail.js'
 import firebase from 'firebase';
+import EvilIcons from 'react-native-vector-icons/EvilIcons'
 
 export default class Search extends Component {
 
    state = {
        apiIsFetchingData: false,
        apiCallFinished: true,
-       filteredTreks:[],
-       results:[],
+       hashtagResults:[],
        searchText:'',
        users:[]
    }
 
    componentWillMount() {
-     this.setState({searchText:  this.props.navigation.state.params.searchText})
-     this.searchSubmit(this.props.navigation.state.params.searchText)
+    if (this.props.navigation.state.params.searchText != '') {
+      this.setState({searchText:  this.props.navigation.state.params.searchText})
+      this.searchSubmit(this.props.navigation.state.params.searchText)
+    }
    }
 
-   searchSubmit(e) {
-     let searchText = e
-     if (e.nativeEvent != undefined) {
-       searchText = e.nativeEvent.text;
+   componentDidMount(){
+     if (this.props.navigation.state.params.searchText == '' || this.props.navigation.state.params.searchText == undefined) {
+       this.searchInput.focus();
      }
-
-     var self = this;
-     axios.get('http://demo1996132.mockable.io/trekker')
-       .then(response => {
-           var ft = self.filterResults(searchText, response.data.treks)
-           this.setState({
-             filteredTreks: ft,
-             users: response.data.users
-           })
-         }
-       )
    }
 
-   filterResults(searchText, data) {
+   filterResults(type, searchText, data) {
      let text = searchText.toLowerCase();
 
-     return data.filter((d) => {
-
-       //first check titles
-       if (d.title.toLowerCase().search(text) !== -1) return true
-
-       //check cities
-       for (var i = 0, len = d.cities.length; i < len; i++) {
-           if (d.cities[i].toLowerCase() == text) {
-             return true
-           }
-         }
-
-       //now check tags
-       for (var i = 0, len = d.tags.length; i < len; i++) {
-           if (d.tags[i].toLowerCase() == '#' + text) {
-             return true
-           }
-         }
-     });
+     retVal = false;
+     switch(type) {
+        case "treks": retVal = this.filterForTreks(data, text)
+          break;
+        case "tips": retVal = this.filterForTips(data, text)
+          break;
+        case "resources": retVal = this.filterForResources(data, text)
+          break;
+        default: break;
+     }
+     return retVal;
    }
 
-   generateResults() {
-      console.log(this.state.searchText)
-     if (this.state.searchText.charAt(0) == '#') {
-       this.retrievePostsWithHashtag(this.state.searchText.substr(1));
+   filterForTips(data, text) {
+     //first check titles
+     if (data.tipTitle.toLowerCase().indexOf(text) !== -1) {
+      return true
+    }
+
+    //now check tags
+    if (typeof data.tipTags !== "undefined") {
+       for (var i = 0, len = data.tipTags.length; i < len; i++) {
+           if (data.tipTags[i].toLowerCase() == text.replace('#', '')) return true
+        }
      }
-     else {
-       this.createTrekList();
+
+     //check tip text
+     if (data.tipText.toLowerCase().indexOf(text) !== -1) {
+      return true
+    }
+   }
+
+   filterForResources(data, text) {
+     //first check titles
+     if (data.resourceTitle.toLowerCase().indexOf(text) !== -1) {
+      return true
+    }
+   }
+
+   filterForTreks(data, text) {
+     //first check titles
+     if (data.title.toLowerCase().indexOf(text) !== -1) {
+      return true
+    }
+
+     //check stops
+     if (typeof data.days !== "undefined") {
+      for (var i = 0, len = data.days.length; i < len; i++) {
+         if(typeof data.days[i].stops !== "undefined") {
+            for (var j = 0, len = data.days[i].stops.length; j < len; j++) {
+                if (data.days[i].stops[j].stopName.toLowerCase().indexOf(text) !== -1)  return true
+            }
+          }
+       }
      }
+
+     //now check tags
+     if (typeof data.trekTags !== "undefined") {
+        for (var i = 0, len = data.trekTags.length; i < len; i++) {
+            if (data.trekTags[i].toLowerCase() == text.replace('#', '')) return true
+         }
+      }
    }
 
    retrievePostsWithHashtag(tag) {
      var posts = [];
      var self = this;
-     var tips = []
-     var treks = []
-     var resources = []
 
      firebase.database().ref('/tags').child(tag).once('value')
            .then(function(snapshot) {
                  snapshot.forEach(function(child) {
-                   console.log(child.val())
-                   posts.push(child.val())
-                   switch(child.val()) {
-                     case 'tip': tips.push(child.key)
-                        break;
-                     case 'resource': resources.push(child.key)
-                      break;
-                     case 'trek': treks.push(child.key)
-                      break;
-                     default: break;
-                   }
+                   var post = child
+                   firebase.database().ref().child(post.val() + 's').once('value')
+                   .then(function(snapshot2) {
+                      if (snapshot2.hasChild(post.key)) {
+                        posts.unshift(snapshot2.child(post.key).val())
+                      }
+                   })
                  })
            })
-           .then(() => self.setState({results: posts}) )
+           .then(() => {
+             self.setState({filteredTreks: posts})
+           })
    }
 
-   createTrekList() {
+   searchSubmit(e) {
+      let searchText = e
+      var self = this
+      if (e.nativeEvent != undefined) {
+        searchText = e.nativeEvent.text;
+      }
+
+      if (searchText.charAt(0) == '#' && searchText.length > 1) {
+        this.retrievePostsWithHashtag(searchText.substr(1))
+      }
+      else {
+        this.getMatches(searchText)
+      }
+    }
+
+    getMatches(searchText) {
+      var self = this;
+      var keys = [
+        "/treks",
+        "/resources",
+        "/tips"
+      ];
+      var promises = keys.map(function(key) {
+        return firebase.database().ref(key).once("value");
+      });
+
+      var filteredList = [];
+      Promise.all(promises).then(function(snapshots) {
+        snapshots.forEach(function(snapshot) {
+          snapshot.forEach(function(child) {
+            if (self.filterResults(snapshot.key, searchText, child.val())) {
+              filteredList.push({type: snapshot.key, id: child.key, details: child.val()})
+            }
+          })
+        });
+      })
+      .then(() => {
+        filteredList.sort(this.sortFunction)
+        self.setState({filteredList : filteredList})
+      });
+    }
+
+    sortFunction(a, b) {
+        if (a.details.datePosted === b.details.datePosted) {
+            return 0;
+        }
+        else {
+            return (a.details.datePosted < b.details.datePosted) ? 1 : -1;
+        }
+    }
+
+   getResults() {
      var list = []
-     this.state.filteredTreks.map(trek =>{
-       var u = this.state.users.filter(v => v.id == trek.user);
-       list.push(<TrekDetail key={trek.id} trekRecord={trek} user={u[0]} navigation = {this.props.navigation}/>)
-     })
+     if (this.state.filteredList != null) {
+       this.state.filteredList.map(item =>{
+         switch(item.type) {
+           case "treks": list.push(<TrekDetail key={item.id} id= {item.id} trekRecord={item.details} navigation = {this.props.navigation} handleDeletedTrek = {this.removeItem}/>)
+             break;
+           case "resources": list.push(<Card style={{width: '100%'}} key={item.id}>
+                       <CardItem button onPress={() => { Linking.openURL(item.details.link)}}>
+                         <View style={{flexDirection: 'column', alignSelf: 'flex-start', width: '90%'}}>
+                             <Text style={{fontWeight: "bold"}}>{item.details.resourceTitle}</Text>
+                             <Text note>{item.details.resourceSummary}</Text>
+                         </View>
+                           <EvilIcons style={{color: 'gray',position:'absolute', right: 5}} size={25} name="external-link"/>
+                       </CardItem>
+                      </Card>)
+             break;
+           case "tips": list.push(<TipDetail key={item.id} id={item.id} tip={item.details} navigation ={this.props.navigation} handleDeletedTip={this.removeItem}/>)
+             break;
+           default:
+             break;
+         }
+       })
+     }
+    /* else if (this.state.hashtagResults != null) {
+       console.log('htresults',this.state.hashtagResults)
+       this.state.hashtagResults.map(item =>{
+         list.push(<View>{item}</View>)
+       })
+     }*/
+     else {
+       if (this.state.searchText != '') {
+         list = <Text>Nothing found.</Text>
+       }
+       else {
+         console.log(this.state.searchText )
+       }
+     }
      return list
    }
 
@@ -113,42 +215,40 @@ export default class Search extends Component {
    }
 
   render() {
+
     return (
       <Container>
         <Content>
-          <Header searchBar style={{backgroundColor: '#fff'}}>
-            <Left>
-                <Button
-                  transparent
-                  title="Submit"
-                  onPress={() => {
-                            this.props.navigation.navigate('Home')
-                          }}>
-                    <Icon name="ios-arrow-back" style={{color: 'gray'}}/>
-                </Button>
-            </Left>
-              <Item style={{width: "100%"}}>
-                <Input style={{width: "100%"}}
-                  placeholder={this.state.searchText}
-                  returnKeyType="done"
-                  keyboardType="default"
-                  autoCorrect={true}
-                  onChange={this.searchSubmit.bind(this)}
-                  />
-              </Item>
+          <Header searchBar style={{backgroundColor: '#fff', paddingLeft: 0, paddingRight: 0}}>
+            <Button
+              transparent
+              title="Submit"
+              style={{width: 50, height: '100%'}}
+              onPress={() => {this.props.navigation.goBack() }}>
+                <Icon name="ios-arrow-back" style={{color: 'gray', paddingTop: 5, fontSize: 30}}/>
+            </Button>
+            <Body>
+              <TextInput style={{width: "100%", height: 80, marginTop: 5}}
+                ref={(input) => { this.searchInput = input; }}
+                multiline={false}
+                underlineColorAndroid = "transparent"
+                placeholder={this.state.searchText}
+                returnKeyType="done"
+                keyboardType="default"
+                autoCorrect={true}
+                onChange={this.searchSubmit.bind(this)}
+                />
+            </Body>
             <Right>
               <Button
                 transparent
-                isLoading={this.state.apiIsFetchingData}
-                onPress={() => {
-                            this.searchSubmit()
-                        }}>
+                isLoading={this.state.apiIsFetchingData}>
                 <Icon name="ios-search"></Icon>
               </Button>
             </Right>
           </Header>
           <View>
-            {this.generateResults()}
+            {this.getResults()}
           </View>
         </Content>
       </Container>

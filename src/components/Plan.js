@@ -3,6 +3,7 @@ import { ScrollView, View, Image } from 'react-native';
 import axios from 'axios';
 import { Container, Header, Button, Card, CardItem, Input, Icon, Content, Left, Body, Right, Thumbnail, Text } from 'native-base';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 class Plan extends Component {
   state = {
@@ -47,7 +48,7 @@ class Plan extends Component {
               onPress={() => {
                           this.props.navigation.navigate('AddTip')
                       }}>
-              <Icon name='ios-book' style={{paddingLeft: 10, color: '#fff', fontSize: 30}}></Icon>
+              <MaterialCommunityIcons name="lightbulb-outline" style={{alignSelf:'center', color: 'white'}} size={20}/>
               <Text style={{color: '#fff'}}>Share a tip</Text>
             </Button>
           </Content>

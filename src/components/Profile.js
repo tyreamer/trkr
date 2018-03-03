@@ -40,8 +40,6 @@ class Profile extends Component {
     }
 
     componentWillMount() {
-      console.log('props for profile')
-      console.log(this.props)
       this.getUserDetails()
     }
 
@@ -60,7 +58,7 @@ class Profile extends Component {
     }
 
     createTrekList() {
-      this.getTreks() 
+      this.getTreks()
       var list = []
 
       this.state.treks.map(trek => {

@@ -3,8 +3,8 @@ package com.albums;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.reactlibrary.googlesignin.RNGoogleSignInPackage;
-import com.magus.fblogin.FacebookLoginPackage;
+import com.imagepicker.ImagePickerPackage;
+import com.RNFetchBlob.RNFetchBlobPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -26,8 +26,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new RNGoogleSignInPackage(),
-            new FacebookLoginPackage(),
+            new ImagePickerPackage(),
+            new RNFetchBlobPackage(),
             new LinearGradientPackage()
       );
     }

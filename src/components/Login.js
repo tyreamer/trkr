@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image } from 'react-native';
+import { Image, Alert } from 'react-native';
 import { Container, Header, View, Content, Item, Input, Card, CardItem, Icon, Button, Text, Spinner, Left, Body, Right } from 'native-base';
 import axios from 'axios';
 import firebase from 'firebase';
@@ -9,26 +9,52 @@ class Login extends Component {
    state = {
      email: '',
      password: '',
-     error: ''
+     error: '',
+     showSpinner: false
    }
 
    submitForm() {
      const {email, password} = this.state
-     this.setState({error: ''})
+     this.setState({error: '', showSpinner: true})
      var self = this
      firebase.auth().signInWithEmailAndPassword(email, password)
-       .catch(() => {
-         firebase.auth().createUserWithEmailAndPassword(email, password)
-          .then(() => {
-            // Get a key for a new user
-            var usersRef = firebase.database().ref('/').child('users')
-            var myUser = usersRef.child(self.escapeEmailAddress(email))
-            myUser.set({
-              email: email
-            })
-          })
-          .catch(() => {this.setState({error: 'Please verify your email and password are correct then try again.'})})//failed login
+       .catch((error) => {
+         if (error.code === 'auth/wrong-password') {
+           this.setState({error: 'Please verify your email and password are correct then try again.',
+                          showSpinner: false,
+                          password: ''})
+         }
+         else {
+           self.triggerCreateAccount(email, password)
+         }
        })
+   }
+
+   triggerCreateAccount(email, password) {
+        Alert.alert(
+          'Join',
+          `We were not able to find your account, would you like to create one?`,
+          [
+            {text: 'No', onPress: () => this.setState({showSpinner: false, password: ''}), style: 'cancel'},
+            {text: 'Yes', onPress: () => this.createAccount(email, password) },
+          ],
+          { cancelable: true }
+        )
+   }
+
+   createAccount(email, password) {
+      var self = this;
+
+      firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then(() => {
+        this.setState({error: '', showSpinner: false})
+        // Get a key for a new user
+        var usersRef = firebase.database().ref('/').child('users')
+        var myUser = usersRef.child(self.escapeEmailAddress(email))
+        myUser.set({
+          email: email
+        })
+      })
    }
 
    escapeEmailAddress(email) {
@@ -38,6 +64,22 @@ class Login extends Component {
     email = email.toLowerCase();
     email = email.replace(/\./g, ',');
     return email;
+  }
+
+  renderButton() {
+    if (this.state.showSpinner) {
+      return <Spinner />
+    }
+    else {
+      return (<Button
+        style={{height: 60, width: '100%', justifyContent: 'center', backgroundColor: '#fff'}}
+        transparent
+        onPress={() => {
+                    this.submitForm()
+                }}>
+        <Text uppercase={false} style={{fontSize: 30, paddingTop: 15, color: '#6db5ff'}}>Login / Join</Text>
+      </Button>);
+    }
   }
 
    render() {
@@ -82,14 +124,7 @@ class Login extends Component {
             </CardItem>
           </Card>
           <View style={{justifyContent: 'flex-end'}}>
-            <Button
-              style={{height: 60, width: '100%', justifyContent: 'center', backgroundColor: '#fff'}}
-              transparent
-              onPress={() => {
-                          this.submitForm()
-                      }}>
-              <Text uppercase={false} style={{fontSize: 30, paddingTop: 15, color: '#6db5ff'}}>Login</Text>
-            </Button>
+            {this.renderButton()}
           </View>
         </Content>
       </Container>

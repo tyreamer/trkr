@@ -1,66 +1,190 @@
 import React , { Component } from 'react';
-import { View, Image, ImageBackground } from 'react-native';
-import { Container, Header, Button, Icon, Content, Card, CardItem, Segment, List, ListItem, Left, Body, Right, Thumbnail, Text } from 'native-base';
+import { View, Image, ImageBackground, TouchableOpacity, Toast } from 'react-native';
+import { Container, Header, Button, Icon, Grid, Col, Content, Card, CardItem, Separator, List, ListItem, Left, Body, Right, Thumbnail, Text } from 'native-base';
 import Interactions from './Interactions';
+import StaticGMap from './StaticGMap';
+import Expand from 'react-native-simple-expand';
+import firebase from 'firebase';
+import TagList from './TagList'
 
-const TrekDetail = (props) => {
-  var img=''
-  if (props.trekRecord.featuredImage != undefined) {
-    img = props.trekRecord.featuredImage
+class TrekDetail extends Component  {
+
+  constructor(props) {
+      super(props)
+       this.deletePost=this.deletePost.bind(this);
   }
 
-  var date = new Date(props.trekRecord.datePosted);
+  componentWillMount() {
+    this.setState({  open: false, record: this.props.id, trek: this.props.trekRecord});
+  }
+
+  goToPost() {
+    this.props.navigation.navigate('ViewTrek', {trekRecord: this.props.trekRecord, navigation: this.props.navigation})
+  }
+
+  formatNumber(num) {
+    if (num >= 1000000000) {
+       return  (num / 1000000000).toFixed(1).replace(/\.0$/, '') + 'G';
+    }
+    if (num >= 1000000) {
+       return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+    }
+    if (num >= 1000) {
+       return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+    }
+    return 0;
+  }
+
+  getActiveColor() {
+    if (this.state.open) return '#6db5ff'
+  }
+
+  deletePost(key) {
+    var updates = {};
+    var self = this;
+
+    //remove from posts
+    var trekRef = firebase.database().ref().child('treks');
+    trekRef.once('value', function(snapshot) {
+        if (snapshot.hasChild(key)) {
+          trekRef.child(key).remove();
+        }
+      });
+
+    //remove from user posts
+    var userPostRef = firebase.database().ref().child('user-posts').child(firebase.auth().currentUser.email.toLowerCase().replace(/\./g, ','));
+    userPostRef.once('value', function(snapshot) {
+        if (snapshot.hasChild(key)) {
+          userPostRef.child(key).remove();
+        }
+      });
+
+    //remove post from tags
+    var tagRef = firebase.database().ref().child('tags')
+    tagRef.once('value', function(snapshot) {
+      if (self.state.trek.trekTags !== null && self.state.trek.trekTags !== undefined) {
+        for (i = 0; i < self.state.trek.trekTags.length; i++) {
+          var tag = self.state.trek.trekTags[i].toLowerCase().trim()
+          if (snapshot.hasChild(tag)) {
+            tagRef.child(tag).child(key).remove();
+          }
+        }
+      }
+    });
+
+    this.props.handleDeletedTrek(key);
+  }
+
+render() {
+  var img=''
+  if (this.props.trekRecord.featuredImage != undefined) {
+    img = this.props.trekRecord.featuredImage
+  }
+
+  //date
+  var date = new Date(this.props.trekRecord.datePosted);
   var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-  date = (months[date.getMonth()]
-          + ' ' + date.getDate()
-          + ', ' +  date.getFullYear());
+  date = ((date.getMonth()+1)
+          + '/' + date.getDate()
+          + '/' +  date.getFullYear());
 
-  var trekSummary = props.trekRecord.title;
-  /*trekSummary += props.trekRecord.days.length > 1 ? " days" : " day"
-  trekSummary += " in " + props.trekRecord.days[0].stops[0].stops;
-  trekSummary += props.trekRecord.days[0].stops.length > 1 ? " and " : "";
-  if (props.trekRecord.days.stops.length > 1 ) {
-      trekSummary += props.trekRecord.days.stops.length > 2 ? props.trekRecord.days.stops.length + " other stops" : " and 1 other stop"
-  }*/
+  //budget
+  var budget = this.formatNumber(this.props.trekRecord.budget)
 
-  var tags =''
-  if (props.trekRecord.tags != undefined) {
-    props.trekRecord.tags.join(' ')
+  //stops
+  var totalStops = 0;
+  if (this.props.trekRecord.days != undefined && this.props.trekRecord.days != null) {
+    for (var i = 0; i< this.props.trekRecord.days.length; i++) {
+        if (this.props.trekRecord.days[i].stops != undefined && this.props.trekRecord.days[i].stops != null) {
+         totalStops = totalStops + this.props.trekRecord.days[i].stops.length
+       }
+    }
   }
 
   return (
-      <View>
-        <Card style={{flex: 0, shadowColor: 'transparent', shadowOpacity: 0,  shadowColor: 'transparent', shadowOffset: { height: 0, width: 0 }, elevation: 0}}>
-          <CardItem style={{paddingLeft: 0, paddingRight:0, paddingBottom: 0, paddingTop: 0}}>
-            <Body>
-              <Button full transparent style={{position: 'absolute', right: 0, top: 0, zIndex: 18}}>
-                <Icon name="ios-add-circle-outline" style={{fontSize: 20, paddingLeft: 5, color: 'white'}}></Icon>
-              </Button>
-              <View style={{paddingLeft: 5, paddingTop: 10}}>
-                <Text style={{fontSize: 15}}> {props.trekRecord.title}</Text>
-              {/*  <Text note style={{fontSize: 12}}> {trekSummary}</Text> */}
-              </View>
-              <Image source={{uri: img }} resizeMode="contain" style={{height: 250, width: '100%'}}/>
-              <Text style={{fontSize: 8,paddingLeft: 5, color: 'blue'}}>{tags}</Text>
-            </Body>
-          </CardItem>
-          {/*<CardItem style={{paddingTop: 0, paddingBottom: 0}}>
-            <Left>
-                <Interactions/>
-            </Left>
-          </CardItem>*/}
-          <CardItem style={{flexDirection: 'column', paddingTop: 0}}>
-                <Text style={{alignSelf:'flex-end', fontSize: 10, textDecorationLine:'underline'}}
+        <Card>
+          <CardItem header button style={styles.CardElevatedStyle} onPress= {() => this.goToPost() }>
+            <Col size={7}>
+              <Text style={{fontSize: 20, paddingLeft: 10}}>{this.props.trekRecord.title} </Text>
+            </Col>
+            <Col size={3} style={{paddingRight: 5}}>
+                <Text style={{alignSelf:'flex-end', fontSize: 12, textDecorationLine:'underline'}}
                         onPress={() => {
-                            props.navigation.navigate('UserProfile', {user: props.trekRecord.user, navigation: props.navigation })                        
+                            this.props.navigation.navigate('UserProfile', {user: this.props.trekRecord.user, navigation: this.props.navigation })
                         }}>
-                        {props.trekRecord.displayName}
+                        {this.props.trekRecord.displayName}
                 </Text>
                 <Text  style={{alignSelf:'flex-end', fontSize: 10}} note>{date}</Text>
+            </Col>
+          </CardItem>
+          <Expand value={this.state.open}>
+            <Grid style={{backgroundColor: this.getActiveColor(), padding: 10}}>
+              <Col size={4} style={styles.GridColStyle}>
+                <Icon name="md-calendar" style={styles.CardIconStyle}></Icon>
+                <Text style={styles.CardTextStyle}>{this.props.trekRecord.days.length}</Text>
+              </Col>
+              <Col size={4} style={styles.GridColStyle}>
+                <Icon name="logo-usd" style={styles.CardIconStyle}></Icon>
+                <Text style={styles.CardTextStyle}>{budget}</Text>
+              </Col>
+              <Col size={4} style={styles.GridColStyle}>
+                <Icon name="ios-pin" style={styles.CardIconStyle}></Icon>
+                <Text style={styles.CardTextStyle}>{totalStops}</Text>
+              </Col>
+            </Grid>
+            {this.props.trekRecord.summary ? <CardItem style={[styles.CardElevatedStyle], {backgroundColor: '#f8f8f8'}}><Text note>{this.props.trekRecord.summary}</Text></CardItem>: null}
+          </Expand>
+          <TouchableOpacity onPress={() => this.setState({ open: !this.state.open })}>
+            <CardItem cardBody style={{paddingLeft: 0, paddingRight:0, paddingBottom: 0, paddingTop: 0}}>
+              <Body>
+                {img === '' ? <StaticGMap trekDays={this.props.trekRecord.days} onPress= {() => this.goToPost() }/> : <Image source={{uri: img }} resizeMode="contain" style={{height: 250, width: '100%'}}/>}
+              </Body>
+            </CardItem>
+          </TouchableOpacity>
+          <Expand value={this.state.open}>
+            <CardItem>
+              <TagList tags={this.props.trekRecord.trekTags} navigation = {this.props.navigation}/>
+            </CardItem>
+          </Expand>
+          <CardItem style={{paddingTop: 0, paddingBottom: 0, paddingLeft: 0, paddingRight: 0, backgroundColor: this.getActiveColor() }}>
+                <Interactions handleDelete={this.deletePost} id={this.props.id} user={this.props.trekRecord.user} summary={this.props.trekRecord.summary} title={this.props.trekRecord.title}/>
+          </CardItem>
+          <CardItem style={[{}, styles.CardElevatedStyle]}>
+            <TouchableOpacity style={{width: '100%', alignItems: 'center'}} onPress={() => this.setState({ open: !this.state.open })}>
+                 {this.state.open ? <Icon name="md-arrow-dropup"/>: <Icon name="md-arrow-dropdown"/>}
+            </TouchableOpacity>
           </CardItem>
         </Card>
-      </View>
-  )
+      )
+  }
+}
+
+const styles= {
+  CardElevatedStyle:
+  {
+    backgroundColor: '#fff',
+    elevation: 5,
+    shadowColor:'#000',
+    shadowOpacity:0.6,
+    paddingLeft: 0,
+    paddingRight:0
+  },
+  CardTextStyle:
+  {
+    fontSize: 25,
+    color: '#fff',
+    paddingLeft: 5
+  },
+  CardIconStyle:
+  {
+    color: '#fff',
+    fontSize: 15,
+  },
+  GridColStyle:
+  {
+    flexDirection: 'row',
+    alignItems: 'center'
+  }
 }
 
 export default TrekDetail;
