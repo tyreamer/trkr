@@ -90,15 +90,19 @@ render() {
                     <Text style={{fontWeight: 'bold'}}>{this.props.tip.tipTitle}</Text>
                   </Col>
                   <Col size={3} style={{flexDirection:'column'}}>
-                    <Text note style={{alignSelf:'flex-end'}}>{this.props.tip.displayName ? this.props.tip.displayName: ""}</Text>
+                    <Text note style={{alignSelf:'flex-end'}}
+                      onPress={() => {  this.props.navigation.navigate('UserProfile', {user: this.props.tip.user, navigation: this.props.navigation}); }}>
+                      {this.props.tip.displayName ? this.props.tip.displayName: ""}
+                    </Text>
                     <Text note style={{alignSelf:'flex-end'}}>{date}</Text>
                   </Col>
                 </Grid>
               </CardItem>
               <CardItem style={{flexDirection: 'column', alignItems:'flex-start', paddingTop: 0}}>
                 <Text note>{this.props.tip.tipText}</Text>
-                {this.renderEditable()}
                 <TagList tags={this.props.tip.tipTags} navigation = {this.props.navigation}/>
+
+                {this.renderEditable()}
               </CardItem>
             </Card>);
   }

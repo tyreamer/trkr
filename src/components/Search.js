@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { TextInput } from 'react-native';
-import { Container, Header, View, Content, Card, CardItem, Icon, Button, Text, Left, Body, Right } from 'native-base';
+import { Container, Header, View, Content, Card, CardItem, Icon, Button, Text, Left, Body, Right, Spinner } from 'native-base';
 import TrekDetail from './TrekDetail.js'
 import TipDetail from './TipDetail.js'
 import firebase from 'firebase';
@@ -9,11 +9,8 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons'
 export default class Search extends Component {
 
    state = {
-       apiIsFetchingData: false,
-       apiCallFinished: true,
-       hashtagResults:[],
        searchText:'',
-       users:[]
+       showSpinner: false
    }
 
    componentWillMount() {
@@ -97,42 +94,52 @@ export default class Search extends Component {
    }
 
    retrievePostsWithHashtag(tag) {
-     var posts = [];
-     var self = this;
+     this.setState({showSpinner: true})
+      var filteredList = [];
+      var self = this;
 
-     firebase.database().ref('/tags').child(tag).once('value')
-           .then(function(snapshot) {
-                 snapshot.forEach(function(child) {
-                   var post = child
-                   firebase.database().ref().child(post.val() + 's').once('value')
-                   .then(function(snapshot2) {
-                      if (snapshot2.hasChild(post.key)) {
-                        posts.unshift(snapshot2.child(post.key).val())
-                      }
-                   })
-                 })
-           })
-           .then(() => {
-             self.setState({filteredTreks: posts})
-           })
+      Promise.resolve(firebase.database().ref('/tags').child(tag).once('value')
+      .then(function(snapshot) {
+        snapshot.forEach(function(child) {
+          firebase.database().ref().child(child.val() + 's').once('value')
+          .then(function(snapshot2) {
+             if (snapshot2.hasChild(child.key)) {
+               filteredList.push({type: child.val() + 's', id: snapshot2.child(child.key).key, details: snapshot2.child(child.key).val()})
+             }
+          })
+        })
+      }))
+      .then(() => {
+         filteredList.sort(this.sortFunction)
+         //TODO figure out why this isn't being set at the correct time
+         setTimeout(function(){ self.setState({filteredList: filteredList, showSpinner: false}) }, 1);
+       })
    }
 
    searchSubmit(e) {
       let searchText = e
       var self = this
-      if (e.nativeEvent != undefined) {
+      if (searchText.nativeEvent != undefined) {
         searchText = e.nativeEvent.text;
+        this.updateSearchText(searchText)
       }
 
-      if (searchText.charAt(0) == '#' && searchText.length > 1) {
-        this.retrievePostsWithHashtag(searchText.substr(1))
+      if (searchText.length > 1) {
+        if (searchText.charAt(0) == '#' && searchText.length > 1) {
+          this.retrievePostsWithHashtag(searchText.substr(1))
+        }
+        else {
+          this.getMatches(searchText)
+        }
       }
       else {
-        this.getMatches(searchText)
+        this.setState({filteredList: []})
       }
     }
 
     getMatches(searchText) {
+      this.setState({showSpinner: true})
+
       var self = this;
       var keys = [
         "/treks",
@@ -155,7 +162,7 @@ export default class Search extends Component {
       })
       .then(() => {
         filteredList.sort(this.sortFunction)
-        self.setState({filteredList : filteredList})
+        self.setState({filteredList : filteredList, showSpinner: false})
       });
     }
 
@@ -192,26 +199,11 @@ export default class Search extends Component {
          }
        })
      }
-    /* else if (this.state.hashtagResults != null) {
-       console.log('htresults',this.state.hashtagResults)
-       this.state.hashtagResults.map(item =>{
-         list.push(<View>{item}</View>)
-       })
-     }*/
-     else {
-       if (this.state.searchText != '') {
-         list = <Text>Nothing found.</Text>
-       }
-       else {
-         console.log(this.state.searchText )
-       }
-     }
      return list
    }
 
-   updateSearchText(e) {
-        let searchText = e.nativeEvent.text;
-        this.setState({searchText: searchText})
+   updateSearchText(text) {
+        this.setState({searchText: text})
    }
 
   render() {
@@ -232,6 +224,7 @@ export default class Search extends Component {
                 ref={(input) => { this.searchInput = input; }}
                 multiline={false}
                 underlineColorAndroid = "transparent"
+                value={this.state.searchText}
                 placeholder={this.state.searchText}
                 returnKeyType="done"
                 keyboardType="default"
@@ -242,12 +235,13 @@ export default class Search extends Component {
             <Right>
               <Button
                 transparent
-                isLoading={this.state.apiIsFetchingData}>
+                isLoading={this.state.showSpinner}>
                 <Icon name="ios-search"></Icon>
               </Button>
             </Right>
           </Header>
           <View>
+            {this.state.showSpinner ? <Spinner/> : null}
             {this.getResults()}
           </View>
         </Content>

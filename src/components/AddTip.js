@@ -51,7 +51,7 @@ class AddTip extends Component {
 
               tagRef.once('value', function(snapshot) {
                 for (i = 0; i < self.state.tipTags.length; i++) {
-                  var tag = self.state.tipTags[i].toLowerCase().trim()
+                  var tag = self.state.tipTags[i].toLowerCase().trim().replace(/\s+/, "")
                     if (snapshot.hasChild(tag)) {
                       var updatedTag = {};
                       updatedTag[newTipKey] = 'tip';
@@ -145,7 +145,7 @@ class AddTip extends Component {
                   <CardItem style={[styles.HeaderInputStyle, styles.HeaderCardItemStyle]}>
                     <View style={styles.IconTextSameLine}>
                       <Icon name="ios-information-circle-outline" style={{color: '#fff'}}></Icon>
-                      <TextInput
+                      <Input
                         placeholder='title'
                         placeholderTextColor= '#fff'
                         returnKeyType="done"
@@ -160,7 +160,7 @@ class AddTip extends Component {
                   <CardItem transparent style={[styles.HeaderInputStyle, styles.HeaderCardItemStyle]}>
                     <View style={styles.IconTextSameLine}>
                       <Icon name="ios-link" style={{color: '#fff'}}/>
-                      <TextInput
+                      <Input
                         placeholder='add tags'
                         placeholderTextColor= '#fff'
                         returnKeyType="done"
@@ -183,7 +183,7 @@ class AddTip extends Component {
                     </View>
                   </CardItem>
                   {this.state.tipTags != [] ? this.renderTagList() : null}
-                  <CardItem transparent style={[styles.HeaderInputStyle, styles.HeaderCardItemStyle, {height: 100}]}>
+                  <CardItem transparent style={[styles.HeaderInputStyle, styles.HeaderCardItemStyle, {height: '100%'}]}>
                     <View style={[styles.IconTextSameLine]}>
                       <Button transparent style={styles.HeaderButtonStyle}>
                         <MaterialCommunityIcons name="lightbulb-outline" style={{color: '#fff'}} size={20}/>
@@ -198,7 +198,7 @@ class AddTip extends Component {
                         autoCorrect={false}
                         value ={this.state.tipText}
                         onChangeText={tipText=> this.setState({tipText})}
-                        style={[styles.HeaderInputStyle, {color: '#fff', textDecorationLine:'none', height: 100, width: '100%', fontSize:15}]}
+                        style={[styles.HeaderInputStyle, {color: '#fff', textDecorationLine:'none', width: '100%', fontSize:15}]}
                       />
                     </View>
                   </CardItem>
@@ -228,7 +228,9 @@ const styles =  {
     HeaderInputStyle:
     {
       backgroundColor: '#6db5ff',
-      height: 60
+      height: 60,
+      width: '100%',
+      borderBottomWidth: 0
     },
     HeaderCardItemStyle:
     {
